@@ -12,5 +12,3 @@ public class S05T02N01FedoraevaAnnaApplication {
 	}
 
 }
-
-

@@ -1,6 +1,7 @@
 package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.model.service;
 
 import java.util.Collection;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

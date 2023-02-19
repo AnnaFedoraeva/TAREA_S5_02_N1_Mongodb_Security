@@ -2,8 +2,6 @@ package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaA
 
 import java.util.List;
 
-
-
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -31,8 +29,6 @@ import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAn
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.security.jwt.JwtUtils;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.service.UserServiceImpl;
 
-
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
@@ -57,7 +53,7 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		
+
 		if (!userRepository.existsByEmail(loginRequest.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("The username does not exists"));
 		}
@@ -65,7 +61,6 @@ public class AuthController {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
-		
 //		if (!userRepository.existsByUsername(loginRequest.getUsername())) {
 //			return ResponseEntity.badRequest().body(new MessageResponse("The username does not exists"));
 //		}

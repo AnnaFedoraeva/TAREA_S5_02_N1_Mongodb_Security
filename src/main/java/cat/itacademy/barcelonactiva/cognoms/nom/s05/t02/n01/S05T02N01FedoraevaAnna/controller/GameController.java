@@ -2,7 +2,6 @@ package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaA
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,29 +26,6 @@ public class GameController {
 
 	@Autowired
 	UserService userService;
-
-//	@GetMapping("/all")
-//	public String allAccess() {
-//		return "Public Content.";
-//	}
-
-	@GetMapping("/user")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public String userAccess() {
-		return "User Content.";
-	}
-
-	@GetMapping("/mod")
-	@PreAuthorize("hasRole('MODERATOR')")
-	public String moderatorAccess() {
-		return "Moderator Board.";
-	}
-
-	@GetMapping("/admin")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String adminAccess() {
-		return "Admin Board.";
-	}
 
 	@PutMapping("/{id}")
 	@PreAuthorize("#id == principal.id or hasRole('ADMIN')")
@@ -98,7 +74,7 @@ public class GameController {
 
 	}
 
-	// GET /players/ranking/winner: returns the player with the worst success rate.
+	// GET /players/ranking/winner: returns the player with the best success rate.
 	@GetMapping("/winner")
 	public ResponseEntity<?> getWinner() {
 		return userService.getWinner();

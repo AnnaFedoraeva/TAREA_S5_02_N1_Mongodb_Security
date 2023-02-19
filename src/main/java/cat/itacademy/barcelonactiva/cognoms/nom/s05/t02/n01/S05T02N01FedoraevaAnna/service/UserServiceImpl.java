@@ -1,7 +1,6 @@
 package cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.service;
 
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -11,11 +10,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +24,12 @@ import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAn
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.model.repository.GameRepository;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.model.repository.RoleRepository;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.model.repository.UserRepository;
-import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.model.service.UserDetailsImpl;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.request.SignupRequest;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.request.UpdateUsername;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.response.MessageResponse;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.security.jwt.JwtUtils;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.util.AvSuccesRate;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -270,7 +267,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public ResponseEntity<?> getAverageRanking() {
-		List<User> users = userRepository.findAll(Sort.by(Sort.Order.asc("username"))).stream().toList();
+		List<User> users = userRepository.findAll().stream().toList();
 		String message;
 
 		if (users.isEmpty()) {
