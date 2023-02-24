@@ -30,7 +30,6 @@ import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAn
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.security.jwt.JwtUtils;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.util.AvSuccesRate;
 
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
 	JwtUtils jwtUtils;
 
 	public ResponseEntity<?> createUser(SignupRequest signUpRequest) {
-		
+
 		if (signUpRequest.getUsername() == null)
 			signUpRequest.setUsername("ANONYMOUS");
 
@@ -66,15 +65,8 @@ public class UserServiceImpl implements UserService {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 		}
 
-//		User user = new User();
-//		if (!signUpRequest.getUsername().equalsIgnoreCase("ANONYMOUS")) {
-
 		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
 				encoder.encode(signUpRequest.getPassword()));
-//			user.setUsername(signUpRequest.getUsername());
-//			user.setEmail(signUpRequest.getEmail());
-//			user.setPassword(encoder.encode(signUpRequest.getPassword()));
-//		}
 
 		Set<String> strRoles = signUpRequest.getRoles();
 		Set<Role> roles = new HashSet<>();
@@ -82,52 +74,41 @@ public class UserServiceImpl implements UserService {
 
 		if (strRoles == null) {
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER);
-				//.orElseThrow(() -> new RuntimeException("Role is not found."));
+
 			roles.add(userRole);
 		} else {
-			//try {
+
 			strRoles.forEach(role -> {
 				switch (role) {
-				case "admin": 
+				case "admin":
 					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
-							//.orElseThrow(() -> new RuntimeException("Role is not found."));
 					roles.add(adminRole);
 					break;
-				case "user": 
+				case "user":
 					Role userRole = roleRepository.findByName(ERole.ROLE_USER);
-						//.orElseThrow(() -> new RuntimeException("Role is not found."));
 					roles.add(userRole);
 				}
-				
-				});
+
+			});
 		}
-			
-	
-			if (roles.isEmpty()){
-				return ResponseEntity
-						.ok(new MessageResponse("Role is not found"));
-				
-			} else {
+
+		if (roles.isEmpty()) {
+			return ResponseEntity.ok(new MessageResponse("Role is not found"));
+
+		} else {
 			user.setRoles(roles);
 			user.setDate(LocalDateTime.now());
 			user.setGames(games);
 			userRepository.save(user);
-			
+
 			return ResponseEntity
 					.ok(new MessageResponse("The user " + user.getUsername() + " has been successfully created."));
-			}
-//			} catch (Exception e) {
-//				return new ResponseEntity<>("Role is not found", HttpStatus.INTERNAL_SERVER_ERROR);
-//			}
-			
-		
+		}
+
 	}
 
 	@Override
 	public ResponseEntity<?> updatePlayerName(UpdateUsername update, String id) {
-//		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
-//				.getPrincipal();
-//		User userFound = findById(userDetails.getId());
 		User userFound = findById(id);
 		String username = update.getUsername();
 		if (userRepository.existsByUsername(username) && (!username.equalsIgnoreCase("ANONYMOUS"))) {
@@ -151,9 +132,7 @@ public class UserServiceImpl implements UserService {
 		int dice1 = randomNumbers();
 		int dice2 = randomNumbers();
 		Game game = new Game(user.getUsername(), dice1, dice2, "0");
-//		game.setDice1(dice1);
-//		game.setDice2(dice2);
-//		game.setUseranem(username);
+
 		int sumDices = dice1 + dice2;
 
 		if (sumDices == 7) {
@@ -183,18 +162,11 @@ public class UserServiceImpl implements UserService {
 			return new ResponseEntity<>("Player " + user.getUsername() + " has not played any game yet.",
 					HttpStatus.OK);
 		}
-//		List<Game> games = gameRepository.findAllByUser(user);
-//		if (games.isEmpty()) {
-//			return new ResponseEntity<>("Player " + user.getUsername() + " has not played any game yet.", HttpStatus.OK);
-//		}
-//		
-//		user.getGames().clear();
+
 		ArrayList<Game> games = new ArrayList<>();
 		user.setGames(games);
 		gameRepository.deleteByUsername(user.getUsername());
-//		user.getGames().removeAll(games);
 		userRepository.save(user);
-		// games.clear();
 
 		return new ResponseEntity<>("All games of user: " + user.getUsername() + " has been deleted", HttpStatus.OK);
 
@@ -216,34 +188,13 @@ public class UserServiceImpl implements UserService {
 		return ResponseEntity.status(HttpStatus.OK).body(gamesDTO);
 	}
 
-//	public ResponseEntity<?> getGamesByUser(String id) {
-//		User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-//
-//		Optional<Game> games = gameRepository.findAllByUsername(user.getUsername());
-//
-//
-//		List<Game> gamesDTO = games.stream().collect(Collectors.toList());
-//
-//		List<User> allUsers = userRepository.findAll();
-//		List<UserDTO> list = allUsers.stream().filter(user1 -> user1.getGames().size() > 0).map(temp -> {
-//			UserDTO obj = new UserDTO();
-//			obj.setId(temp.getId());
-//			obj.setUsername(temp.getUsername());
-//			obj.setGames(gamesDTO);
-//			return obj;
-//		}).collect(Collectors.toList());
-//
-//		return ResponseEntity.status(HttpStatus.OK).body(gamesDTO);
-//
-//	}
-
 	public String getPlayerAvSucRate(User user) {
 		String result = "The user has not played yet.";
 		int numberGames = 0;
-		// List<Game> games = new ArrayList<Game>();
+
 		if (user.getGames() != null && user.getGames().size() > 0) {
 			numberGames = user.getGames().size();
-			// games = user.getGames();
+
 			float gamesWon = user.getGames().stream().filter(g -> g.getDice1() + g.getDice2() == 7).count();
 			float succesRate = (gamesWon / numberGames) * 100;
 			result = String.valueOf(succesRate);

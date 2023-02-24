@@ -15,8 +15,6 @@ public interface UserService {
 
 	public User findById(String id);
 
-	// public ResponseEntity<?> updatePlayerName(String username, String id);
-
 	public ResponseEntity<?> rollDice(String id);
 
 	public ResponseEntity<?> delete(String id);

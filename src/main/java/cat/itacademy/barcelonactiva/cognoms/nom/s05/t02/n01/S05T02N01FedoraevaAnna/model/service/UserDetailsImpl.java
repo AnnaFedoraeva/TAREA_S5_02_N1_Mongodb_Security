@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cat.itacademy.barcelonactiva.cognoms.nom.s05.t02.n01.S05T02N01FedoraevaAnna.model.domain.User;
 
-//UserDetails contains necessary information (such as: username, password, authorities) to build an Authentication object
+//UserDetails contains necessary information (such as: email/username, password, authorities) to build an Authentication object
 public class UserDetailsImpl implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;

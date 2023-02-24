@@ -27,6 +27,7 @@ public class GameController {
 	@Autowired
 	UserService userService;
 
+	//http://localhost:8080/players/
 	@PutMapping("/{id}")
 	@PreAuthorize("#id == principal.id or hasRole('ADMIN')")
 	public ResponseEntity<?> updatePlayerName(@RequestBody UpdateUsername update, @PathVariable String id) {
